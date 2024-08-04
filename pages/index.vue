@@ -356,6 +356,17 @@ const formLink =
 const toggleQuestion = (index) => {
   openQuestionIndex.value = openQuestionIndex.value === index ? null : index;
 };
+
+const onMounted = () => {
+  if (process.client) {
+    if (localStorage.theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

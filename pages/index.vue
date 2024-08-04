@@ -357,7 +357,7 @@ const toggleQuestion = (index) => {
   openQuestionIndex.value = openQuestionIndex.value === index ? null : index;
 };
 
-const onMounted = () => {
+onMounted(() => {
   if (process.client) {
     if (localStorage.theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -366,7 +366,7 @@ const onMounted = () => {
       localStorage.theme = "light";
     }
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

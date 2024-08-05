@@ -38,7 +38,7 @@
     </header>
 
     <main>
-      <section class="wrapper section-margin">
+      <section id="program" class="wrapper section-margin">
         <h1 class="title margin-block">Mentorship tracks</h1>
 
         <div class="flex justify-center gap-[30px]">
@@ -88,7 +88,8 @@
           </div>
         </div>
       </section>
-      <section class="wrapper section-margin">
+
+      <section id="program" class="wrapper section-margin">
         <h1 class="title margin-block">Curriculum</h1>
 
         <div class="flex justify-center">
@@ -109,13 +110,14 @@
           </div>
         </div>
       </section>
-      <section class="wrapper section-margin">
+
+      <section id="mentors" class="wrapper section-margin">
         <h1 class="title margin-block">Mentors</h1>
 
         <div class="mentors">
           <div class="mentors__block">
             <img
-              class="w-52 h-52 rounded-full"
+              class="w-52 h-52 rounded-full object-cover"
               src="~/assets/img/jpg/mentor1.jpeg"
               alt="Darkhonbek Mamataliev"
             />
@@ -142,7 +144,7 @@
 
           <div class="mentors__block">
             <img
-              class="w-52 h-52 rounded-full"
+              class="w-52 h-52 rounded-full object-cover"
               src="~/assets/img/jpg/mentor2.jpeg"
               alt="Azimjon Pulatov"
             />
@@ -170,13 +172,14 @@
           </div>
         </div>
       </section>
-      <section class="wrapper section-margin">
+
+      <section id="alumni" class="wrapper section-margin">
         <h1 class="title margin-block">Alumni</h1>
 
         <div class="alumni">
           <div class="alumni__block">
             <img
-              class="w-[370px] h-[300px] rounded-xl"
+              class="w-[370px] h-[300px] rounded-xl object-cover"
               src="~/assets/img/jpg/alumni.jpg"
               alt="Alumni"
             />
@@ -192,7 +195,7 @@
               <div class="mt-5">
                 <ULink
                   to="https://www.linkedin.com"
-                  class="flex items-start gap-2 mb-1"
+                  class="flex items-start gap-2"
                 >
                   <h2 class="text-blue text-lg font-medium">Anvar Kayumov</h2>
                   <img src="~/assets/img/icons/linkedin.svg" alt="LinkedIn" />
@@ -204,7 +207,8 @@
           </div>
         </div>
       </section>
-      <section class="wrapper section-margin">
+
+      <section id="faq" class="wrapper section-margin">
         <h1 class="title margin-block">Frequently asked questions</h1>
 
         <div class="faq__block">
@@ -254,6 +258,7 @@
           </ULink>
         </div>
       </section>
+
       <section class="wrapper mb-28">
         <div class="flex flex-col items-center justify-center">
           <h1 class="text-6xl font-semibold tracking-tighter">
@@ -284,10 +289,10 @@
         <ul class="flex justify-between items-center mt-10">
           <li>
             <div class="flex items-center gap-x-5 font-semibold">
-              <a href="#">Program</a>
-              <a href="#">Mentors</a>
-              <a href="#">Alumni</a>
-              <a href="#">FAQ</a>
+              <nuxt-link to="/#program">Program</nuxt-link>
+              <nuxt-link to="/#mentors">Mentors</nuxt-link>
+              <nuxt-link to="/#alumni">Alumni</nuxt-link>
+              <nuxt-link to="/#faq">FAQ</nuxt-link>
             </div>
           </li>
         </ul>
@@ -297,6 +302,7 @@
 </template>
 
 <script setup>
+const router = useRouter();
 let openQuestionIndex = ref(null);
 const faq = [
   {
@@ -366,6 +372,27 @@ onMounted(() => {
       localStorage.theme = "light";
     }
   }
+
+  watch(
+    () => router.currentRoute.value,
+    (to, from) => {
+      if (to.hash) {
+        setTimeout(() => {
+          const element = document.querySelector(to.hash);
+          if (element) {
+            const yOffset = -70; // Adjust this value according to your navbar height
+            const y =
+              element.getBoundingClientRect().top +
+              window.pageYOffset +
+              yOffset;
+
+            window.scrollTo({ top: y, behavior: "smooth" });
+          }
+        }, 100); // Adjust the delay as needed
+      }
+    },
+    { immediate: true }
+  );
 });
 </script>
 

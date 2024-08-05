@@ -12,10 +12,10 @@
 
       <li>
         <div class="flex items-center gap-x-5 font-semibold">
-          <a href="#">Program</a>
-          <a href="#">Mentors</a>
-          <a href="#">Alumni</a>
-          <a href="#">FAQ</a>
+          <nuxt-link to="/#program">Program</nuxt-link>
+          <nuxt-link to="/#mentors">Mentors</nuxt-link>
+          <nuxt-link to="/#alumni">Alumni</nuxt-link>
+          <nuxt-link to="/#faq">FAQ</nuxt-link>
         </div>
       </li>
 
@@ -51,4 +51,8 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.active-link {
+  @apply border-b border-black;
+}
+</style>

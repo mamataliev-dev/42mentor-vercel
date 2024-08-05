@@ -8,12 +8,14 @@
   }
 }
 
-// Import fonts
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-// Main Styles
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Inter", "sans-serif";
-  color: #050505;
+  color: #1c1111;
   position: relative;
 }

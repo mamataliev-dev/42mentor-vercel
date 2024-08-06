@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/ui": "^2.18.2",
     "nuxt": "^3.12.4",
+    "vercel": "^35.2.3",
     "vue": "latest"
   },
   "devDependencies": {

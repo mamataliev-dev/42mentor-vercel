@@ -283,16 +283,16 @@
     <footer class="py-14 border-t border-[#E5E5E5]">
       <div class="wrapper flex flex-col items-center justify-center">
         <ULink to="/">
-          <img src="~/assets/img/icons/logo.svg" alt="42Mentor" />
+          <img src="~/assets/img/icons/logo.svg" alt="42Mentor"
         </ULink>
 
         <ul class="flex justify-between items-center mt-10">
           <li>
             <div class="flex items-center gap-x-5 font-semibold">
-              <nuxt-link to="/#program">Program</nuxt-link>
-              <nuxt-link to="/#mentors">Mentors</nuxt-link>
-              <nuxt-link to="/#alumni">Alumni</nuxt-link>
-              <nuxt-link to="/#faq">FAQ</nuxt-link>
+              <a href="#program">Program</a>
+              <a href="#mentors">Mentors</a>
+              <a href="#alumni">Alumni</a>
+              <a href="#faq">FAQ</a>
             </div>
           </li>
         </ul>
@@ -362,37 +362,78 @@ const formLink =
 const toggleQuestion = (index) => {
   openQuestionIndex.value = openQuestionIndex.value === index ? null : index;
 };
+const sectionTitle = ref("");
 
-onMounted(() => {
-  if (process.client) {
-    if (localStorage.theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
+const smoothScroll = (targetHash) => {
+  const element = document.querySelector(targetHash);
+  if (element) {
+    const targetPosition = element.getBoundingClientRect().top;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - 70; // Offset for fixed navbar height (adjust as needed)
+    const duration = 2000; // Duration in milliseconds
+    let start = null;
+
+    window.requestAnimationFrame(function step(timestamp) {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const progressRatio = Math.min(progress / duration, 1); // Ensures progressRatio is between 0 and 1
+      window.scrollTo(
+        0,
+        startPosition + distance * easeInOutQuad(progressRatio)
+      );
+      if (progress < duration) {
+        window.requestAnimationFrame(step);
+      }
+    });
+
+    function easeInOutQuad(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     }
   }
+};
+
+onMounted(() => {
+  const updateSectionTitle = (hash) => {
+    const element = document.querySelector(hash);
+    if (element) {
+      sectionTitle.value =
+        element.textContent || element.getAttribute("id") || "Section";
+    } else {
+      sectionTitle.value = "";
+    }
+  };
 
   watch(
     () => router.currentRoute.value,
     (to, from) => {
       if (to.hash) {
         setTimeout(() => {
-          const element = document.querySelector(to.hash);
-          if (element) {
-            const yOffset = -70;
-            const y =
-              element.getBoundingClientRect().top +
-              window.pageYOffset +
-              yOffset;
-
-            window.scrollTo({ top: y, behavior: "smooth" });
-          }
+          smoothScroll(to.hash);
+          updateSectionTitle(to.hash);
         }, 100);
       }
     },
     { immediate: true }
   );
+
+  const handleAnchorClick = (e) => {
+    e.preventDefault();
+    const targetHash = e.target.getAttribute("href");
+    if (targetHash) {
+      smoothScroll(targetHash);
+      updateSectionTitle(targetHash);
+    }
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", handleAnchorClick);
+  });
+
+  onBeforeUnmount(() => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.removeEventListener("click", handleAnchorClick);
+    });
+  });
 });
 </script>
 

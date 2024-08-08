@@ -380,7 +380,7 @@ onMounted(() => {
         setTimeout(() => {
           const element = document.querySelector(to.hash);
           if (element) {
-            const yOffset = -70; // Adjust this value according to your navbar height
+            const yOffset = -70;
             const y =
               element.getBoundingClientRect().top +
               window.pageYOffset +
@@ -388,7 +388,7 @@ onMounted(() => {
 
             window.scrollTo({ top: y, behavior: "smooth" });
           }
-        }, 100); // Adjust the delay as needed
+        }, 100);
       }
     },
     { immediate: true }
